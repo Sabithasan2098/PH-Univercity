@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { studentServices } from './student.service';
 
+// post a data------------------------------------->
 const createStudent = async (req: Request, res: Response) => {
   try {
     const student = req.body.student;
@@ -17,7 +18,24 @@ const createStudent = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+// --------------------------------------------//
+
+// find all student data------------------------------------>
+const getAllStudent = async (req: Request, res: Response) => {
+  try {
+    const result = await studentServices.getAllStudentFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'Find data successfully',
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+// ------------------------------------------------//
 
 export const studentControllers = {
   createStudent,
+  getAllStudent,
 };
