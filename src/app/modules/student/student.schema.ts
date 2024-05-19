@@ -28,13 +28,10 @@ const localGuardianSchema = new Schema<localGuardians>({
 });
 // create custom error message for required fields------------->
 export const studentSchema = new Schema<Student>({
-  id: { type: String },
+  id: { type: String,unique:true, required: [true,"its a required field you can not ignore it"]},
   name: {
-    enum: {
-      values: ['firstName', 'middleName', 'lastName'],
-      message: "The name field is only flowing: firstName,middleName, lastName "
-    },
-    required: true,
+   type: userNameSchema,
+    required: [true,"its a required field you can not ignore it"],
   },
   email: { type: String, required: [true,"its a required field you can not ignore it"] },
   gender: {
@@ -58,18 +55,12 @@ export const studentSchema = new Schema<Student>({
   presentAddress: { type: String, required: [true,"present address field is required"] },
   permanentAddress: { type: String, required: [true,"permanent address field is required"] },
   guardians: {
-    enum: {
-      values: ['fatherName', 'fatherOccupation', 'fatherContactNumber', 'motherName', 'motherOccupation', 'motherContactNumber'],
-      message: "The guardians field is only flowing: fatherName, fatherOccupation, fatherContactNumber, motherName, motherOccupation, motherContactNumber"
-    },
-    required: true,
+   type: guardianSchema,
+    required: [true,"guardians field is required"],
   },
   localGuardians: {
-    enum: {
-      values: ['name', 'occupation', 'contactNumber', 'address'],
-      message: "The localGuardians field is only flowing: name, occupation, contactNumber, address"
-    },
-    required: true,
+    type: localGuardianSchema,
+    required: [true,"localGuardians field is required"],
   },
   profilePicture: { type: String },
   isActive:{
