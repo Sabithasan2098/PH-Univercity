@@ -6,25 +6,36 @@ import {
   studentName,
 } from './student.interface';
 
+// capitalize the first letter of the string------------------------------------>
+function capitalizeFirstLetter(value: string) {
+  const capitalizeValue = value.charAt(0).toUpperCase() + value.slice(1);
+  return capitalizeValue === value
+}
+
+// --------------------------------//
+
 const userNameSchema = new Schema<studentName>({
   firstName: { 
     type: String, 
     required: [true, "First name is a required field and cannot be ignored"], 
     minlength: [2, "First name must be at least 2 characters long"],
     maxlength: [50, "First name must be at most 50 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "First name must start with a capital letter"]
   },
   middleName: { 
     type: String,
     maxlength: [50, "Middle name must be at most 50 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Middle name must start with a capital letter"]
   },
   lastName: { 
     type: String, 
     required: [true, "Last name is a required field and cannot be ignored"], 
     minlength: [2, "Last name must be at least 2 characters long"],
     maxlength: [50, "Last name must be at most 50 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Last name must start with a capital letter"]
   },
 });
 
@@ -34,14 +45,16 @@ const guardianSchema = new Schema<guardians>({
     required: [true, "Father's name is a required field and cannot be ignored"],
     minlength: [2, "Father's name must be at least 2 characters long"],
     maxlength: [50, "Father's name must be at most 50 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Father's name must start with a capital letter"]
   },
   fatherOccupation: { 
     type: String, 
     required: [true, "Father's occupation is a required field and cannot be ignored"],
     minlength: [2, "Father's occupation must be at least 2 characters long"],
     maxlength: [100, "Father's occupation must be at most 100 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Father's occupation must start with a capital letter"]
   },
   fatherContactNumber: { 
     type: String, 
@@ -55,14 +68,16 @@ const guardianSchema = new Schema<guardians>({
     required: [true, "Mother's name is a required field and cannot be ignored"],
     minlength: [2, "Mother's name must be at least 2 characters long"],
     maxlength: [50, "Mother's name must be at most 50 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Mother's name must start with a capital letter"]  
   },
   motherOccupation: { 
     type: String, 
     required: [true, "Mother's occupation is a required field and cannot be ignored"],
     minlength: [2, "Mother's occupation must be at least 2 characters long"],
     maxlength: [100, "Mother's occupation must be at most 100 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Mother's occupation must start with a capital letter"]
   },
   motherContactNumber: { 
     type: String, 
@@ -79,14 +94,16 @@ const localGuardianSchema = new Schema<localGuardians>({
     required: [true, "Local guardian's name is a required field and cannot be ignored"],
     minlength: [2, "Local guardian's name must be at least 2 characters long"],
     maxlength: [50, "Local guardian's name must be at most 50 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Local guardian's name must start with a capital letter"]
   },
   occupation: { 
     type: String, 
     required: [true, "Local guardian's occupation is a required field and cannot be ignored"],
     minlength: [2, "Local guardian's occupation must be at least 2 characters long"],
     maxlength: [100, "Local guardian's occupation must be at most 100 characters long"],
-    trim: true
+    trim: true,
+    validate: [capitalizeFirstLetter, "Local guardian's occupation must start with a capital letter"]
   },
   contactNumber: { 
     type: String, 
@@ -103,6 +120,8 @@ const localGuardianSchema = new Schema<localGuardians>({
     trim: true
   },
 });
+
+
 
 // Add min and max length validation to fields
 export const studentSchema = new Schema<Student>({
