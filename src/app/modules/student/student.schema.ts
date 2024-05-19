@@ -5,6 +5,7 @@ import {
   localGuardians,
   studentName,
 } from './student.interface';
+import validator from 'validator';
 
 // capitalize the first letter of the string------------------------------------>
 function capitalizeFirstLetter(value: string) {
@@ -21,7 +22,11 @@ const userNameSchema = new Schema<studentName>({
     minlength: [2, "First name must be at least 2 characters long"],
     maxlength: [50, "First name must be at most 50 characters long"],
     trim: true,
-    validate: [capitalizeFirstLetter, "First name must start with a capital letter"]
+    // validate: [capitalizeFirstLetter, "First name must start with a capital letter"],
+    validate:{
+      validator:(value:string)=>validator.isAlpha(value),
+      message:"{VALUE} is not a valid first name"
+    }
   },
   middleName: { 
     type: String,
@@ -142,7 +147,11 @@ export const studentSchema = new Schema<Student>({
     required: [true, "Email is a required field and cannot be ignored"],
     minlength: [5, "Email must be at least 5 characters long"],
     maxlength: [100, "Email must be at most 100 characters long"],
-    trim: true
+    trim: true,
+    validate:{
+      validator:(value:string)=>validator.isEmail(value),
+      message:"{VALUE} is not a valid email address"
+    }
   },
   gender: {
     type: String,
