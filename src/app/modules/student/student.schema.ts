@@ -27,21 +27,42 @@ const localGuardianSchema = new Schema<localGuardians>({
   address: { type: String, required: true },
 });
 
+// fix the enum and type issue------------->
 export const studentSchema = new Schema<Student>({
   id: { type: String },
-  name: userNameSchema,
+  name: {
+    type: userNameSchema,
+    required: true,
+  },
   email: { type: String, required: true },
-  gender: ['female', 'male'],
+  gender: {
+    type: String,
+    enum: ['female', 'male'],
+    required: true,
+  },
   dateOfBirth: { type: String },
   contactNumber: { type: String, required: true },
   emergencyContactNumber: { type: String, required: true },
-  bloodGroup: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  bloodGroup: {
+    type: String,
+    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  },
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
-  guardians: guardianSchema,
-  localGuardians: localGuardianSchema,
+  guardians: {
+    type: guardianSchema,
+    required: true,
+  },
+  localGuardians: {
+    type: localGuardianSchema,
+    required: true,
+  },
   profilePicture: { type: String },
-  isActive: ['active', 'blocked'],
+  isActive:{
+    type: String,
+    enum:['active','inactive'],
+    default:'active'
+  },
 });
 
 // create a model------------->
