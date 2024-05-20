@@ -156,7 +156,7 @@ export const studentSchema = new Schema<Student>({
   gender: {
     type: String,
     enum: {
-      values: ['female', 'male'],
+      values: ['female', 'male', 'other'],
       message: "{VALUE} is not supported, please provide a valid gender"
     },
     required: true,
