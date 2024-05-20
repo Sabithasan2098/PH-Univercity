@@ -8,7 +8,7 @@ export type guardians = {
 };
 export type studentName = {
   firstName: string;
-  middleName: string;
+  middleName?: string | undefined;
   lastName: string;
 };
 export type localGuardians = {
@@ -21,15 +21,24 @@ export type Student = {
   id: string;
   name: studentName;
   email: string;
-  gender: 'male' | 'female';
-  dateOfBirth: string;
+  gender: "male" | "female" | "other";
+  dateOfBirth?: string | undefined;
   contactNumber: string;
   emergencyContactNumber: string;
-  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | ' O-';
+  bloodGroup?:
+    | "A+"
+    | "A-"
+    | "B+"
+    | "B-"
+    | "AB+"
+    | "AB-"
+    | "O+"
+    | "O-"
+    | undefined;
   presentAddress: string;
   permanentAddress: string;
   guardians: guardians;
   localGuardians: localGuardians;
-  profilePicture: string;
-  isActive: 'active' | 'blocked';
+  profilePicture?: string | undefined;
+  isActive: "active" | "blocked";
 };
