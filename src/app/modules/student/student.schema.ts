@@ -1,12 +1,14 @@
 import { Schema, model } from 'mongoose';
 import {
-  Student,
-  guardians,
-  localGuardians,
-  studentName,
+  TStudent,
+  StudentMethods,
+  Tguardians,
+  TlocalGuardians,
+  StudentModel,
+  TstudentName,
 } from './student.interface';
 
-const userNameSchema = new Schema<studentName>({
+const userNameSchema = new Schema<TstudentName>({
   firstName: {
     type: String,
     required: true,
@@ -23,7 +25,7 @@ const userNameSchema = new Schema<studentName>({
   },
 });
 
-const guardianSchema = new Schema<guardians>({
+const guardianSchema = new Schema<Tguardians>({
   fatherName: {
     type: String,
     required: true,
@@ -56,7 +58,7 @@ const guardianSchema = new Schema<guardians>({
   },
 });
 
-const localGuardianSchema = new Schema<localGuardians>({
+const localGuardianSchema = new Schema<TlocalGuardians>({
   name: {
     type: String,
     required: true,
@@ -80,7 +82,8 @@ const localGuardianSchema = new Schema<localGuardians>({
 });
 
 // original schema------------------------------------------------------>
-export const studentSchema = new Schema<Student>({
+// using studentModel and studentMethod in student schema to create instance method----------------->
+export const studentSchema = new Schema<TStudent,StudentModel,StudentMethods>({
   id: {
     type: String,
     unique: true,
@@ -145,5 +148,10 @@ export const studentSchema = new Schema<Student>({
   },
 });
 // -------------------------------------------------------------//
+// check user exits or not-------------------------------------->
+studentSchema.methods.isUserExits = async function(id:string){
+const exitingUser = await Student.findOne({id});
+return exitingUser;
+}
 // create model--------------------------------------------------->
-export const StudentModel = model<Student>('Student', studentSchema);
+export const Student = model<TStudent,StudentModel>('TStudent', studentSchema);
