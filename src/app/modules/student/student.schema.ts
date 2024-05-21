@@ -1,13 +1,13 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 import {
   TStudent,
   Tguardians,
   TlocalGuardians,
   StudentModel,
   TstudentName,
-} from './student.interface';
-import bcrypt from 'bcrypt';
-import config from '../../config';
+} from "./student.interface";
+import bcrypt from "bcrypt";
+import config from "../../config";
 
 const userNameSchema = new Schema<TstudentName>({
   firstName: {
@@ -84,7 +84,7 @@ const localGuardianSchema = new Schema<TlocalGuardians>({
 
 // original schema------------------------------------------------------>
 // using studentModel and studentMethod in student schema to create instance method----------------->
-export const studentSchema = new Schema<TStudent,StudentModel>({
+export const studentSchema = new Schema<TStudent, StudentModel>({
   id: {
     type: String,
     unique: true,
@@ -107,7 +107,7 @@ export const studentSchema = new Schema<TStudent,StudentModel>({
   },
   gender: {
     type: String,
-    enum: ['female', 'male', 'other'],
+    enum: ["female", "male", "other"],
     required: true,
     trim: true,
   },
@@ -124,7 +124,7 @@ export const studentSchema = new Schema<TStudent,StudentModel>({
   },
   bloodGroup: {
     type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
     trim: true,
   },
   presentAddress: {
@@ -148,25 +148,26 @@ export const studentSchema = new Schema<TStudent,StudentModel>({
   profilePicture: { type: String, trim: true },
   isActive: {
     type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
+    enum: ["active", "blocked"],
+    default: "active",
     trim: true,
   },
 });
 // -------------------------------------------------------------//
 // create mongoose hook-------------------------------------------->
 // pre save hook || middleware------->
-studentSchema.pre('save',async function (next){
-//  hashing password before save into database---->
-this.password =await bcrypt.hash(this.password,Number(config.bcryptSalt));
-  
+studentSchema.pre("save", async function (next) {
+  //  hashing password before save into database---->
+  this.password = await bcrypt.hash(this.password, Number(config.bcryptSalt));
+
   next();
-})
+});
 // post save hook || middleware------>
-studentSchema.post('save',function(next){
-  console.log(this.guardians.fatherName, "call from post save hook");
- 
-})
+// don't show the password---------------->
+studentSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
 // -------------------------------------------------------------//
 // check user exits or not using instance method----------------->
 // studentSchema.methods.isUserExits = async function(id:string){
@@ -175,9 +176,9 @@ studentSchema.post('save',function(next){
 // }
 // ------------------------------------------------------------//
 // check user exits or not using static method------------------>
-studentSchema.statics.existsStudent = async function(id:string){
-  const exitingUser = await Student.findOne({id});
+studentSchema.statics.existsStudent = async function (id: string) {
+  const exitingUser = await Student.findOne({ id });
   return exitingUser;
-}
+};
 // create model--------------------------------------------------->
-export const Student = model<TStudent,StudentModel>('Student', studentSchema);
+export const Student = model<TStudent, StudentModel>("Student", studentSchema);
