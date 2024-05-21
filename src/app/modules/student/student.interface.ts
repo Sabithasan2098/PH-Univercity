@@ -44,6 +44,7 @@ export type TStudent = {
   localGuardians: TlocalGuardians;
   profilePicture?: string | undefined;
   isActive: "active" | "blocked";
+  isDeleted: boolean;
 };
 
 // create student instance method ------------------>
@@ -54,5 +55,5 @@ export type TStudent = {
 
 // create static method for student schema ----------------->
 export interface StudentModel extends Model<TStudent> {
- existsStudent (id: string): Promise<TStudent | null>;
+  existsStudent(id: string): Promise<TStudent | null>;
 }

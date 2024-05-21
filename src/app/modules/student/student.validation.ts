@@ -19,7 +19,10 @@ const userNameValidationSchema = z.object({
 });
 
 const guardianValidationSchema = z.object({
-  fatherName: z.string().trim().min(1, { message: "Father name must not be empty" }),
+  fatherName: z
+    .string()
+    .trim()
+    .min(1, { message: "Father name must not be empty" }),
   fatherOccupation: z
     .string()
     .trim()
@@ -28,7 +31,10 @@ const guardianValidationSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Father contact number must not be empty" }),
-  motherName: z.string().trim().min(1, { message: "Mother name must not be empty" }),
+  motherName: z
+    .string()
+    .trim()
+    .min(1, { message: "Mother name must not be empty" }),
   motherOccupation: z
     .string()
     .trim()
@@ -40,7 +46,10 @@ const guardianValidationSchema = z.object({
 });
 
 const localGuardianValidationSchema = z.object({
-  name: z.string().trim().min(1, { message: "Local guardian name must not be empty" }),
+  name: z
+    .string()
+    .trim()
+    .min(1, { message: "Local guardian name must not be empty" }),
   occupation: z
     .string()
     .trim()
@@ -57,7 +66,10 @@ const localGuardianValidationSchema = z.object({
 
 const studentValidationSchemaZod = z.object({
   id: z.string().trim().min(1, { message: "ID must not be empty" }),
-  password: z.string().min(6, { message: "Password must be 6 character" }).max(20,"Password will be at most 20 characters long"),
+  password: z
+    .string()
+    .min(6, { message: "Password must be 6 character" })
+    .max(20, "Password will be at most 20 characters long"),
   name: userNameValidationSchema,
   email: z
     .string()
@@ -94,6 +106,7 @@ const studentValidationSchemaZod = z.object({
   localGuardians: localGuardianValidationSchema,
   profilePicture: z.string().trim().optional(),
   isActive: z.enum(["active", "blocked"]).default("active"),
+  isDeleted: z.boolean(),
 });
 
 export default studentValidationSchemaZod;

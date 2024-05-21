@@ -93,7 +93,6 @@ export const studentSchema = new Schema<TStudent, StudentModel>({
   },
   password: {
     type: String,
-    unique: true,
     required: true,
   },
   name: {
@@ -152,6 +151,10 @@ export const studentSchema = new Schema<TStudent, StudentModel>({
     default: "active",
     trim: true,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 // -------------------------------------------------------------//
 // create mongoose hook-------------------------------------------->
@@ -169,6 +172,21 @@ studentSchema.post("save", function (doc, next) {
   next();
 });
 // -------------------------------------------------------------//
+//don't show data which isDeleted field is true----------------------------->
+studentSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+studentSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+// don't show also in aggregated data sync system---->
+studentSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+// -----------------------------------------------------------------------//
 // check user exits or not using instance method----------------->
 // studentSchema.methods.isUserExits = async function(id:string){
 // const exitingUser = await Student.findOne({id});

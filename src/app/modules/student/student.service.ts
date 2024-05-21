@@ -1,10 +1,10 @@
-import { TStudent } from './student.interface';
-import { Student } from './student.schema';
+import { TStudent } from "./student.interface";
+import { Student } from "./student.schema";
 
 const createStudentIntoDB = async (studentData: TStudent) => {
   // now checking with custom static method--------------------------------------------->
-  if(await Student.existsStudent(studentData.id)){
-    throw new Error('Student already exits from static');
+  if (await Student.existsStudent(studentData.id)) {
+    throw new Error("Student already exits from static");
   }
   // ---------------------------------------------------------------------------------//
   const result = await Student.create(studentData);
@@ -23,8 +23,17 @@ const getAllStudentFromDB = async () => {
   return result;
 };
 
+// const getAStudentFromDB = async (id: string) => {
+//   const result = await Student.findOne({ id });
+//   return result;
+// };
 const getAStudentFromDB = async (id: string) => {
-  const result = await Student.findOne({ id });
+  const result = await Student.aggregate([{ $match: { id } }]);
+  return result;
+};
+
+const deleteAStudentFromDB = async (id: string) => {
+  const result = await Student.updateOne({ id }, { isDeleted: true });
   return result;
 };
 
@@ -32,4 +41,5 @@ export const studentServices = {
   createStudentIntoDB,
   getAllStudentFromDB,
   getAStudentFromDB,
+  deleteAStudentFromDB,
 };
