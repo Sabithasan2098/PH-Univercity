@@ -6,6 +6,8 @@ import {
   StudentModel,
   TstudentName,
 } from './student.interface';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const userNameSchema = new Schema<TstudentName>({
   firstName: {
@@ -89,6 +91,11 @@ export const studentSchema = new Schema<TStudent,StudentModel>({
     required: true,
     trim: true,
   },
+  password: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   name: {
     type: userNameSchema,
     required: true,
@@ -149,8 +156,10 @@ export const studentSchema = new Schema<TStudent,StudentModel>({
 // -------------------------------------------------------------//
 // create mongoose hook-------------------------------------------->
 // pre save hook || middleware------->
-studentSchema.pre('save',function(next){
-  console.log(this.guardians.motherName, "call from pre save hook");
+studentSchema.pre('save',async function (next){
+//  hashing password before save into database---->
+this.password =await bcrypt.hash(this.password,Number(config.bcryptSalt));
+  
   next();
 })
 // post save hook || middleware------>
@@ -171,4 +180,4 @@ studentSchema.statics.existsStudent = async function(id:string){
   return exitingUser;
 }
 // create model--------------------------------------------------->
-export const Student = model<TStudent,StudentModel>('TStudent', studentSchema);
+export const Student = model<TStudent,StudentModel>('Student', studentSchema);
