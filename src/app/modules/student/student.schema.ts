@@ -147,6 +147,18 @@ export const studentSchema = new Schema<TStudent,StudentModel>({
   },
 });
 // -------------------------------------------------------------//
+// create mongoose hook-------------------------------------------->
+// pre save hook || middleware------->
+studentSchema.pre('save',function(next){
+  console.log(this.guardians.motherName, "call from pre save hook");
+  next();
+})
+// post save hook || middleware------>
+studentSchema.post('save',function(next){
+  console.log(this.guardians.fatherName, "call from post save hook");
+ 
+})
+// -------------------------------------------------------------//
 // check user exits or not using instance method----------------->
 // studentSchema.methods.isUserExits = async function(id:string){
 // const exitingUser = await Student.findOne({id});
