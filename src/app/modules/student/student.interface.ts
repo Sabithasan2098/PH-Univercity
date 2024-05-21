@@ -46,7 +46,12 @@ export type TStudent = {
 };
 
 // create student instance method ------------------>
-export type StudentMethods = {
-  isUserExits(id:string) : Promise<TStudent | null>
+// export type StudentMethods = {
+//   isUserExits(id:string) : Promise<TStudent | null>
+// }
+// export type StudentModel = Model<TStudent, Record<string,never>, StudentMethods>;
+
+// create static method for student schema ----------------->
+export interface StudentModel extends Model<TStudent> {
+ existsStudent (id: string): Promise<TStudent | null>;
 }
-export type StudentModel = Model<TStudent, Record<string,never>, StudentMethods>;

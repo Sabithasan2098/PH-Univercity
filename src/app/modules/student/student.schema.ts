@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose';
 import {
   TStudent,
-  StudentMethods,
   Tguardians,
   TlocalGuardians,
   StudentModel,
@@ -83,7 +82,7 @@ const localGuardianSchema = new Schema<TlocalGuardians>({
 
 // original schema------------------------------------------------------>
 // using studentModel and studentMethod in student schema to create instance method----------------->
-export const studentSchema = new Schema<TStudent,StudentModel,StudentMethods>({
+export const studentSchema = new Schema<TStudent,StudentModel>({
   id: {
     type: String,
     unique: true,
@@ -148,10 +147,16 @@ export const studentSchema = new Schema<TStudent,StudentModel,StudentMethods>({
   },
 });
 // -------------------------------------------------------------//
-// check user exits or not-------------------------------------->
-studentSchema.methods.isUserExits = async function(id:string){
-const exitingUser = await Student.findOne({id});
-return exitingUser;
+// check user exits or not using instance method----------------->
+// studentSchema.methods.isUserExits = async function(id:string){
+// const exitingUser = await Student.findOne({id});
+// return exitingUser;
+// }
+// ------------------------------------------------------------//
+// check user exits or not using static method------------------>
+studentSchema.statics.existsStudent = async function(id:string){
+  const exitingUser = await Student.findOne({id});
+  return exitingUser;
 }
 // create model--------------------------------------------------->
 export const Student = model<TStudent,StudentModel>('TStudent', studentSchema);
