@@ -84,79 +84,90 @@ const localGuardianSchema = new Schema<TlocalGuardians>({
 
 // original schema------------------------------------------------------>
 // using studentModel and studentMethod in student schema to create instance method----------------->
-export const studentSchema = new Schema<TStudent, StudentModel>({
-  id: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
+export const studentSchema = new Schema<TStudent, StudentModel>(
+  {
+    id: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: userNameSchema,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      enum: ["female", "male", "other"],
+      required: true,
+      trim: true,
+    },
+    dateOfBirth: { type: String, trim: true },
+    contactNumber: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    emergencyContactNumber: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    bloodGroup: {
+      type: String,
+      enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+      trim: true,
+    },
+    presentAddress: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    permanentAddress: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    guardians: {
+      type: guardianSchema,
+      required: true,
+    },
+    localGuardians: {
+      type: localGuardianSchema,
+      required: true,
+    },
+    profilePicture: { type: String, trim: true },
+    isActive: {
+      type: String,
+      enum: ["active", "blocked"],
+      default: "active",
+      trim: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-  password: {
-    type: String,
-    required: true,
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  name: {
-    type: userNameSchema,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  gender: {
-    type: String,
-    enum: ["female", "male", "other"],
-    required: true,
-    trim: true,
-  },
-  dateOfBirth: { type: String, trim: true },
-  contactNumber: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  emergencyContactNumber: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  bloodGroup: {
-    type: String,
-    enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-    trim: true,
-  },
-  presentAddress: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  permanentAddress: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  guardians: {
-    type: guardianSchema,
-    required: true,
-  },
-  localGuardians: {
-    type: localGuardianSchema,
-    required: true,
-  },
-  profilePicture: { type: String, trim: true },
-  isActive: {
-    type: String,
-    enum: ["active", "blocked"],
-    default: "active",
-    trim: true,
-  },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
-});
+);
 // -------------------------------------------------------------//
+// create a virtual data------------------------->
+studentSchema.virtual("fullName").get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
 // create mongoose hook-------------------------------------------->
 // pre save hook || middleware------->
 studentSchema.pre("save", async function (next) {
