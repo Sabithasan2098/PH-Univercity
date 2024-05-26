@@ -12,7 +12,7 @@ import config from "../../config";
 const userNameSchema = new Schema<TstudentName>({
   firstName: {
     type: String,
-    required: true,
+    required: [true, "First name is required"],
     trim: true,
   },
   middleName: {
@@ -21,7 +21,7 @@ const userNameSchema = new Schema<TstudentName>({
   },
   lastName: {
     type: String,
-    required: true,
+    required: [true, "Last name is required"],
     trim: true,
   },
 });
@@ -29,32 +29,32 @@ const userNameSchema = new Schema<TstudentName>({
 const guardianSchema = new Schema<Tguardians>({
   fatherName: {
     type: String,
-    required: true,
+    required: [true, "Father name is required"],
     trim: true,
   },
   fatherOccupation: {
     type: String,
-    required: true,
+    required: [true, "Father occupation is required"],
     trim: true,
   },
   fatherContactNumber: {
     type: String,
-    required: true,
+    required: [true, "Father contact number is required"],
     trim: true,
   },
   motherName: {
     type: String,
-    required: true,
+    required: [true, "Mother name is required"],
     trim: true,
   },
   motherOccupation: {
     type: String,
-    required: true,
+    required: [true, "Mother occupation is required"],
     trim: true,
   },
   motherContactNumber: {
     type: String,
-    required: true,
+    required: [true, "Mother contact number is required"],
     trim: true,
   },
 });
@@ -62,22 +62,22 @@ const guardianSchema = new Schema<Tguardians>({
 const localGuardianSchema = new Schema<TlocalGuardians>({
   name: {
     type: String,
-    required: true,
+    required: [true, "Name is required"],
     trim: true,
   },
   occupation: {
     type: String,
-    required: true,
+    required: [true, "Occupation is required"],
     trim: true,
   },
   contactNumber: {
     type: String,
-    required: true,
+    required: [true, "Contact number is required"],
     trim: true,
   },
   address: {
     type: String,
-    required: true,
+    required: [true, "Address is required"],
     trim: true,
   },
 });
@@ -89,37 +89,45 @@ export const studentSchema = new Schema<TStudent, StudentModel>(
     id: {
       type: String,
       unique: true,
-      required: true,
+      required: [true, "Id is required"],
       trim: true,
     },
+    // give a connection between student and userModel\student is model------------------------->
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, "User id is required"],
+      unique: true,
+      ref: "UserModel",
+    },
+    // ----------------------------------------------------------------------------------------//
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
     name: {
       type: userNameSchema,
-      required: true,
+      required: [true, "Name is required"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "email is required"],
       trim: true,
     },
     gender: {
       type: String,
       enum: ["female", "male", "other"],
-      required: true,
+      required: [true, "Gender is required"],
       trim: true,
     },
     dateOfBirth: { type: String, trim: true },
     contactNumber: {
       type: String,
-      required: true,
+      required: [true, "Contact number is required"],
       trim: true,
     },
     emergencyContactNumber: {
       type: String,
-      required: true,
+      required: [true, "Emergency contact number is required"],
       trim: true,
     },
     bloodGroup: {
@@ -129,29 +137,23 @@ export const studentSchema = new Schema<TStudent, StudentModel>(
     },
     presentAddress: {
       type: String,
-      required: true,
+      required: [true, "Present address is required"],
       trim: true,
     },
     permanentAddress: {
       type: String,
-      required: true,
+      required: [true, "Permanent address is required"],
       trim: true,
     },
     guardians: {
       type: guardianSchema,
-      required: true,
+      required: [true, "Guardians is required"],
     },
     localGuardians: {
       type: localGuardianSchema,
-      required: true,
+      required: [true, "Local guardians is required"],
     },
     profilePicture: { type: String, trim: true },
-    isActive: {
-      type: String,
-      enum: ["active", "blocked"],
-      default: "active",
-      trim: true,
-    },
     isDeleted: {
       type: Boolean,
       default: false,
