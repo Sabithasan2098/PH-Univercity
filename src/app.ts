@@ -1,7 +1,8 @@
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import { studentsRoutes } from "./app/modules/student/student.route";
 import { userRoutes } from "./app/modules/users/users.routes";
+import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 const app: Application = express();
 
 // perser
@@ -16,12 +17,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({
-    success: false,
-    message: err.message || "Something went wrong",
-    error: err,
-  });
-});
+app.use(globalErrorHandler);
 
 export default app;
