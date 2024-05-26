@@ -1,15 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { userValidationSchema } from "./users.validation";
 import { createStudentIntoDB } from "./users.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 // post student data------------------------------------->
-export const createStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const createStudent: RequestHandler = async (req, res, next) => {
   try {
     const { password, student } = req.body;
 

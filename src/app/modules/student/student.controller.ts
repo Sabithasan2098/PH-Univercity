@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 import { studentServices } from "./student.service";
 import { z } from "zod";
 import studentValidationSchemaZod from "./student.validation";
@@ -6,11 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 // find all student data------------------------------------>
-const getAllStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const getAllStudent: RequestHandler = async (req, res, next) => {
   try {
     const result = await studentServices.getAllStudentFromDB();
     sendResponse(res, {
@@ -25,7 +21,7 @@ const getAllStudent = async (
 };
 // ------------------------------------------------//
 // find a student data----------------------------->
-const getAStudent = async (req: Request, res: Response, next: NextFunction) => {
+const getAStudent: RequestHandler = async (req, res, next) => {
   try {
     const { studentId } = req.params;
     const result = await studentServices.getAStudentFromDB(studentId);
@@ -40,11 +36,7 @@ const getAStudent = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 // delete a student data----------------------------->
-const deleteAStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const deleteAStudent: RequestHandler = async (req, res, next) => {
   try {
     const { studentId } = req.params;
     const result = await studentServices.deleteAStudentFromDB(studentId);
