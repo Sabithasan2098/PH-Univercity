@@ -6,8 +6,6 @@ import {
   StudentModel,
   TstudentName,
 } from "./student.interface";
-import bcrypt from "bcrypt";
-import config from "../../config";
 
 const userNameSchema = new Schema<TstudentName>({
   firstName: {
@@ -100,10 +98,6 @@ export const studentSchema = new Schema<TStudent, StudentModel>(
       ref: "UserModel",
     },
     // ----------------------------------------------------------------------------------------//
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-    },
     name: {
       type: userNameSchema,
       required: [true, "Name is required"],
@@ -170,21 +164,6 @@ export const studentSchema = new Schema<TStudent, StudentModel>(
 studentSchema.virtual("fullName").get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
-// create mongoose hook-------------------------------------------->
-// pre save hook || middleware------->
-studentSchema.pre("save", async function (next) {
-  //  hashing password before save into database---->
-  this.password = await bcrypt.hash(this.password, Number(config.bcryptSalt));
-
-  next();
-});
-// post save hook || middleware------>
-// don't show the password---------------->
-studentSchema.post("save", function (doc, next) {
-  doc.password = "";
-  next();
-});
-// -------------------------------------------------------------//
 //don't show data which isDeleted field is true----------------------------->
 studentSchema.pre("find", function (next) {
   this.find({ isDeleted: { $ne: true } });
@@ -200,12 +179,6 @@ studentSchema.pre("aggregate", function (next) {
   next();
 });
 // -----------------------------------------------------------------------//
-// check user exits or not using instance method----------------->
-// studentSchema.methods.isUserExits = async function(id:string){
-// const exitingUser = await Student.findOne({id});
-// return exitingUser;
-// }
-// ------------------------------------------------------------//
 // check user exits or not using static method------------------>
 studentSchema.statics.existsStudent = async function (id: string) {
   const exitingUser = await Student.findOne({ id });

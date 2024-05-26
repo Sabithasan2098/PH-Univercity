@@ -6,10 +6,6 @@ const getAllStudentFromDB = async () => {
   return result;
 };
 
-// const getAStudentFromDB = async (id: string) => {
-//   const result = await Student.findOne({ id });
-//   return result;
-// };
 const getAStudentFromDB = async (id: string) => {
   const result = await Student.aggregate([{ $match: { id } }]);
   return result;

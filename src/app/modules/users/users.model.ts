@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import { TUser } from "./users.interface";
+import config from "../../config";
+import bcrypt from "bcrypt";
 
 const userSchema = new Schema<TUser>(
   {
@@ -33,5 +35,21 @@ const userSchema = new Schema<TUser>(
     timestamps: true,
   },
 );
+
+// create mongoose hook-------------------------------------------->
+// pre save hook || middleware------->
+userSchema.pre("save", async function (next) {
+  //  hashing password before save into database---->
+  this.password = await bcrypt.hash(this.password, Number(config.bcryptSalt));
+
+  next();
+});
+// post save hook || middleware------>
+// don't show the password---------------->
+userSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
+// -------------------------------------------------------------//
 
 export const UserModel = model<TUser>("User", userSchema);
