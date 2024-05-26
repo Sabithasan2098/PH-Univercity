@@ -15,7 +15,7 @@ export const createStudentIntoDB = async (
   // create role for student--------------------------------------------------->
   userData.role = "student";
   // set a manual generated id------------------------------------------------->
-  userData.id = "20300526";
+  userData.id = "20300523";
   // create NewUser------------------------------------------------------------>
   const NewUser = await UserModel.create(userData);
   // Now time to create a student when find the user length-------------------->
