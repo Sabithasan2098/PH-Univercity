@@ -64,45 +64,47 @@ const localGuardianValidationSchema = z.object({
     .min(1, { message: "Local guardian address must not be empty" }),
 });
 
-const studentValidationSchemaZod = z.object({
-  id: z.string().trim().min(1, { message: "ID must not be empty" }),
-  name: userNameValidationSchema,
-  email: z
-    .string()
-    .trim()
-    .email({ message: "Invalid email address" })
-    .min(1, { message: "Email must not be empty" }),
-  gender: z.enum(["male", "female", "other"], {
-    message: "Gender must be either male, female, or other",
+const studentValidationSchemaZodOnCreate = z.object({
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: userNameValidationSchema,
+      email: z
+        .string()
+        .trim()
+        .email({ message: "Invalid email address" })
+        .min(1, { message: "Email must not be empty" }),
+      gender: z.enum(["male", "female", "other"], {
+        message: "Gender must be either male, female, or other",
+      }),
+      dateOfBirth: z
+        .string()
+        .trim()
+        .min(1, { message: "Date of birth must not be empty" }),
+      contactNumber: z
+        .string()
+        .min(1, { message: "Contact number must not be empty" }),
+      emergencyContactNumber: z
+        .string()
+        .trim()
+        .min(1, { message: "Emergency contact number must not be empty" }),
+      bloodGroup: z
+        .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+        .optional()
+        .default("O+"),
+      presentAddress: z
+        .string()
+        .trim()
+        .min(1, { message: "Present address must not be empty" }),
+      permanentAddress: z
+        .string()
+        .trim()
+        .min(1, { message: "Permanent address must not be empty" }),
+      guardians: guardianValidationSchema,
+      localGuardians: localGuardianValidationSchema,
+      profilePicture: z.string().trim().optional(),
+    }),
   }),
-  dateOfBirth: z
-    .string()
-    .trim()
-    .min(1, { message: "Date of birth must not be empty" }),
-  contactNumber: z
-    .string()
-    .min(1, { message: "Contact number must not be empty" }),
-  emergencyContactNumber: z
-    .string()
-    .trim()
-    .min(1, { message: "Emergency contact number must not be empty" }),
-  bloodGroup: z
-    .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
-    .optional()
-    .default("O+"),
-  presentAddress: z
-    .string()
-    .trim()
-    .min(1, { message: "Present address must not be empty" }),
-  permanentAddress: z
-    .string()
-    .trim()
-    .min(1, { message: "Permanent address must not be empty" }),
-  guardians: guardianValidationSchema,
-  localGuardians: localGuardianValidationSchema,
-  profilePicture: z.string().trim().optional(),
-  isActive: z.enum(["active", "blocked"]).default("active"),
-  isDeleted: z.boolean(),
 });
 
-export default studentValidationSchemaZod;
+export default studentValidationSchemaZodOnCreate;
