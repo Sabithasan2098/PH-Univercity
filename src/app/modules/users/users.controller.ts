@@ -1,5 +1,4 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import { userValidationSchema } from "./users.validation";
+import { RequestHandler } from "express";
 import { createStudentIntoDB } from "./users.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
@@ -9,10 +8,7 @@ export const createStudent: RequestHandler = async (req, res, next) => {
   try {
     const { password, student } = req.body;
 
-    //
-
-    // parse zod validation data------------------------------->
-    // const zodValidationData = userValidationSchema.parse(user);
+    //middleWare dia validation kora hosse->
 
     //call service.ts to send data----->
     const result = await createStudentIntoDB(password, student);
