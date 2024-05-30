@@ -6,6 +6,7 @@ import {
   StudentModel,
   TstudentName,
 } from "./student.interface";
+import { date } from "zod";
 
 const userNameSchema = new Schema<TstudentName>({
   firstName: {
@@ -113,7 +114,7 @@ export const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, "Gender is required"],
       trim: true,
     },
-    dateOfBirth: { type: String, trim: true },
+    dateOfBirth: { type: Date, trim: true },
     contactNumber: {
       type: String,
       required: [true, "Contact number is required"],

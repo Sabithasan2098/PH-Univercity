@@ -77,10 +77,7 @@ const studentValidationSchemaZodOnCreate = z.object({
       gender: z.enum(["male", "female", "other"], {
         message: "Gender must be either male, female, or other",
       }),
-      dateOfBirth: z
-        .string()
-        .trim()
-        .min(1, { message: "Date of birth must not be empty" }),
+      dateOfBirth: z.date().optional(),
       contactNumber: z
         .string()
         .min(1, { message: "Contact number must not be empty" }),

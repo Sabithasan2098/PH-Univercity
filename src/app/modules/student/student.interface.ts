@@ -1,4 +1,4 @@
-import { Model, Types } from "mongoose";
+import { Date, Model, Types } from "mongoose";
 
 export type Tguardians = {
   fatherName: string;
@@ -25,7 +25,7 @@ export type TStudent = {
   name: TstudentName;
   email: string;
   gender: "male" | "female" | "other";
-  dateOfBirth?: string | undefined;
+  dateOfBirth?: Date | undefined;
   contactNumber: string;
   emergencyContactNumber: string;
   bloodGroup?:
