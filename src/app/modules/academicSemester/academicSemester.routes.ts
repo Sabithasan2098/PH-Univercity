@@ -11,9 +11,17 @@ router.post(
   academicSemesterController.createAcademicSemester,
 );
 
-// will call controller function
-// router.get("/get-all-students", studentControllers.getAllStudent);
-// router.get("/:studentId", studentControllers.getAStudent);
-// router.delete("/:studentId", studentControllers.deleteAStudent);
+// get all data------------------------------------------------------------------------------------------->
+router.get(
+  "/get-all-academic-semester",
+  academicSemesterController.getAllAcademicSemesterData,
+);
+// get data by id----------------------------------------------------------------------------------------->
+router.get(
+  "/:academicSemesterId",
+  academicSemesterController.getAcademicSemesterDataById,
+);
+// update academicSemester by id-------------------------------------------------------------------------->
+router.patch("/:studentId", academicSemesterController.updateAcademicSemester);
 
 export const academicSemesterRoutes = router;

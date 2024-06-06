@@ -43,6 +43,7 @@ export type TStudent = {
   guardians: Tguardians;
   localGuardians: TlocalGuardians;
   profilePicture?: string | undefined;
+  admissionSemester: Types.ObjectId;
   isDeleted: boolean;
 };
 

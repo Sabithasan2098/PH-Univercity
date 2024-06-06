@@ -99,6 +99,7 @@ const studentValidationSchemaZodOnCreate = z.object({
         .min(1, { message: "Permanent address must not be empty" }),
       guardians: guardianValidationSchema,
       localGuardians: localGuardianValidationSchema,
+      admissionSemester: z.string(),
       profilePicture: z.string().trim().optional(),
     }),
   }),
