@@ -1,7 +1,10 @@
 import express from "express";
 import { academicSemesterController } from "./academicSemester.controller";
 import validationRequest from "../../middlewares/validateRequest";
-import { createAcademicSemesterValidation } from "./academicSemester.validation";
+import {
+  createAcademicSemesterValidation,
+  updateAcademicSemesterValidationSchema,
+} from "./academicSemester.validation";
 
 const router = express.Router();
 
@@ -22,6 +25,10 @@ router.get(
   academicSemesterController.getAcademicSemesterDataById,
 );
 // update academicSemester by id-------------------------------------------------------------------------->
-router.patch("/:studentId", academicSemesterController.updateAcademicSemester);
+router.patch(
+  "/:studentId",
+  validationRequest(updateAcademicSemesterValidationSchema),
+  academicSemesterController.updateAcademicSemester,
+);
 
 export const academicSemesterRoutes = router;
