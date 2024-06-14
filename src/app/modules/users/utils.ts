@@ -17,17 +17,35 @@ const findLastStudentById = async () => {
     })
     .lean();
 
-  return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
+  //2030 01 0001
+  return lastStudent?.id ? lastStudent.id : undefined;
 };
-
+// -------------------------------------------------------------------------//
 // set a auto generated id--------------------------------------------------->
 
 // year semester 4 digit number
 export const generatedStudentId = async (payload: TAcademicSemester) => {
   // Current ID generation logic (e.g., from a database or other source)
-  const currentId = (await findLastStudentById()) || (0).toString();
+  let currentId = (0).toString();
+  // find the lastStudentId
+  const lastStudentId = await findLastStudentById();
+  // find the year and code
+  //example: 2028 02 0001
+  const lastStudentYear = lastStudentId?.substring(0, 4); //2028
+  const lastStudentCode = lastStudentId?.substring(4, 6); //02
+  // if the generated lastStudentId's currentSemesterCode & currentSemesterYear didn't match lastStudentYear & lastStudentCode. Then we take a action
+  const currentSemesterCode = payload.code;
+  const currentSemesterYear = payload.year;
+  if (
+    lastStudentId &&
+    lastStudentYear === currentSemesterYear &&
+    lastStudentCode === currentSemesterCode
+  ) {
+    currentId = lastStudentId.substring(6);
+  }
   // Increment ID logic
   let incrementId = (Number(currentId) + 1).toString().padStart(4, "0");
   incrementId = `${payload.year}${payload.code}${incrementId}`;
   return incrementId;
 };
+// -------------------------------------------------------------------------//
