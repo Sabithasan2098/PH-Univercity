@@ -12,7 +12,8 @@ export const createAcademicDepartmentIntoDB = async (
 // ---------------------------------------------------------------------------------------------------------------//
 // get all academic Department data--------------------------------------------------------------------------------->
 export const getAcademicDepartmentFromDB = async () => {
-  const result = await AcademicDepartmentModel.find();
+  const result =
+    await AcademicDepartmentModel.find().populate("academicFaculty");
   return result;
 };
 // ---------------------------------------------------------------------------------------------------------------//
