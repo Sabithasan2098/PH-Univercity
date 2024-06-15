@@ -35,7 +35,7 @@ const updateAcademicSemesterDataById = async (req: Request) => {
   return result;
 };
 const updateAcademicSemester = createHandler(
-  (req: any) => updateAcademicSemesterDataById,
+  (req: any) => updateAcademicSemesterDataById(req),
 
   "Update academic semester data successful!",
 );

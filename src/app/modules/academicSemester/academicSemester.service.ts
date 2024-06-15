@@ -24,7 +24,7 @@ export const getAcademicSemesterFromDB = async () => {
 // ---------------------------------------------------------------------------------------------------------------//
 // get academic semester data by id-------------------------------------------------------------------------------->
 export const getAcademicSemesterByIdFromDB = async (id: any) => {
-  const result = await AcademicSemesterModel.findByIdAndUpdate(id);
+  const result = await AcademicSemesterModel.findById(id);
   return result;
 };
 // ---------------------------------------------------------------------------------------------------------------//
