@@ -151,7 +151,11 @@ export const studentSchema = new Schema<TStudent, StudentModel>(
     profilePicture: { type: String, trim: true },
     admissionSemester: {
       type: Schema.Types.ObjectId,
-      ref: "AcademicSemester",
+      ref: "academicSemester",
+    },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: "academicDepartment",
     },
     isDeleted: {
       type: Boolean,

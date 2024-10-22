@@ -19,7 +19,8 @@ export const getAcademicDepartmentFromDB = async () => {
 // ---------------------------------------------------------------------------------------------------------------//
 // get academic Department data by id-------------------------------------------------------------------------------->
 export const getAcademicDepartmentByIdFromDB = async (id: any) => {
-  const result = await AcademicDepartmentModel.findById(id);
+  const result =
+    await AcademicDepartmentModel.findById(id).populate("academicFaculty");
   return result;
 };
 // ---------------------------------------------------------------------------------------------------------------//

@@ -100,6 +100,7 @@ const studentValidationSchemaZodOnCreate = z.object({
       guardians: guardianValidationSchema,
       localGuardians: localGuardianValidationSchema,
       admissionSemester: z.string(),
+      academicDepartment: z.string(),
       profilePicture: z.string().trim().optional(),
     }),
   }),
