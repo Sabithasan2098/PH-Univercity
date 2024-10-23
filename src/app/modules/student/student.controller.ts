@@ -1,5 +1,6 @@
 import { studentServices } from "./student.service";
 import { createHandler } from "../../utils/controllerHandelar";
+import { Request } from "express";
 
 // This are the refactor code result------------------------------------------------------------------->
 // find all student data---------------------------->
@@ -10,12 +11,12 @@ const getAllStudent = createHandler(
 // ------------------------------------------------//
 // find a student data----------------------------->
 const getAStudent = createHandler(
-  (req: any) => studentServices.getAStudentFromDB(req.params.studentId),
+  (req: Request) => studentServices.getAStudentFromDB(req.params.studentId),
   "Student fetched successfully",
 );
 // delete a student data--------------------------->
 const deleteAStudent = createHandler(
-  (req: any) => studentServices.deleteAStudentFromDB(req.params.studentId),
+  (req: Request) => studentServices.deleteAStudentFromDB(req.params.studentId),
   "Delete student successfully",
 );
 // ----------------------------------------------//

@@ -9,7 +9,7 @@ import {
 
 // post DepartMent data------------------------------------->
 export const createAcademicDepartMent = createHandler(
-  (req: any) => createAcademicDepartmentIntoDB(req.body),
+  (req: Request) => createAcademicDepartmentIntoDB(req.body),
   "Create academic DepartMent successful!",
 );
 // ------------------------------------------------------//
@@ -21,21 +21,21 @@ export const getAllAcademicDepartMentData = createHandler(
 // -----------------------------------------------------//
 // get DepartMent data by id------------------------------->
 export const getAcademicDepartMentDataById = createHandler(
-  (req: any) =>
+  (req: Request) =>
     getAcademicDepartmentByIdFromDB(req.params.academicDepartMentId),
   "Get academic DepartMent data successful!",
 );
 // -----------------------------------------------------//
 // get DepartMent data by id and update it------------------------------->
 const updateAcademicDepartMentDataById = async (req: Request) => {
-  const { departMentId } = req.params;
+  const { academicDepartMentId } = req.params;
   const payload = req.body;
-  const result = await updateAcademicDepartmentIntoDB(departMentId, payload);
+  const result = await updateAcademicDepartmentIntoDB(academicDepartMentId, payload);
   return result;
 };
 
 export const updateAcademicDepartMent = createHandler(
-  (req: any) => updateAcademicDepartMentDataById(req),
+  (req: Request) => updateAcademicDepartMentDataById(req),
   "Update academic DepartMent data successful!",
 );
 // -----------------------------------------------------//
